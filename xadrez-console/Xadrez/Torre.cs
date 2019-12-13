@@ -34,7 +34,7 @@ namespace xadrez
                 mat[pos.Linha, pos.Coluna] = true;
                 if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor)
                     break;
-                pos.Linha = pos.Linha--;
+                pos.Linha = pos.Linha - 1;
             }
             // sul
             pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna);
@@ -43,7 +43,7 @@ namespace xadrez
                 mat[pos.Linha, pos.Coluna] = true;
                 if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor)
                     break;
-                pos.Coluna = pos.Coluna++;
+                pos.Linha = pos.Linha + 1;
             }
             // direita
             pos.DefinirValores(Posicao.Linha, Posicao.Coluna + 1);
@@ -52,7 +52,7 @@ namespace xadrez
                 mat[pos.Linha, pos.Coluna] = true;
                 if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor)
                     break;
-                pos.Linha = pos.Linha++;
+                pos.Coluna = pos.Coluna + 1;
             }
             // esquerda
             pos.DefinirValores(Posicao.Linha, Posicao.Coluna - 1);
@@ -61,7 +61,7 @@ namespace xadrez
                 mat[pos.Linha, pos.Coluna] = true;
                 if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor)
                     break;
-                pos.Linha = pos.Linha--;
+                pos.Coluna = pos.Coluna - 1;
             }
 
             return mat;
