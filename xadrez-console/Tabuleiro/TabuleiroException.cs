@@ -7,7 +7,7 @@ namespace tabuleiro
         public TabuleiroException(string msg)
             : base(msg)
         {
-
+            Console.ForegroundColor = ConsoleColor.Red;
         }
     }
 }
