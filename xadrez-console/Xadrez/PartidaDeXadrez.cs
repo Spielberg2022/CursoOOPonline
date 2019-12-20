@@ -51,11 +51,11 @@ namespace xadrez
 
         public void RealizaJogada(Posicao origem, Posicao destino)
         {
-            Peca pecaAMovimentar = ExecutarMovimento(origem, destino);
+            Peca pecaCapturada = ExecutarMovimento(origem, destino);
 
             if (EstaEmXeque(JogadorAtual))
             {
-                DesfazMovimento(origem, destino, pecaAMovimentar);
+                DesfazMovimento(origem, destino, pecaCapturada);
                 throw new TabuleiroException("Você não pode se colocar em xeque!");
             }
 
@@ -85,7 +85,7 @@ namespace xadrez
 
         public void ValidarPosicaoDeDestino(Posicao origem, Posicao destino)
         {
-            if (!tab.Peca(origem).PodeMoverPara(destino))
+            if (!tab.Peca(origem).MovimentoPossivel(destino))
                 throw new TabuleiroException("Posição de destino inválida!");
         }
 
@@ -135,8 +135,8 @@ namespace xadrez
         public bool EstaEmXeque(Cor cor)
         {
             Peca R = Rei(cor);
-            //if (R == null)
-            //    throw new TabuleiroException("Não tem rei da cor " + cor + " no tabuleiro!");
+            if (R == null)
+                throw new TabuleiroException("Não tem rei da cor " + cor + " no tabuleiro!");
             foreach (Peca x in PecasEmJogo(Adversaria(cor)))
             {
                 bool[,] mat = x.MovimentosPossiveis();
@@ -168,7 +168,7 @@ namespace xadrez
                         }
                     }
             }
-            return false;
+            return true;
         }
 
         public void ColocarNovaPeca(char coluna, int linha, Peca peca)
