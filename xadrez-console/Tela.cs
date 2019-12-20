@@ -18,11 +18,19 @@ namespace xadrez_console
             {
                 Console.WriteLine("Aguardando jogada: " + partida.JogadorAtual);
                 if (partida.Xeque)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine("XEQUE!");
+                    Console.ResetColor();
+                }
+                    
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("XEQUEMATE!");
+                Console.ResetColor();
+                Console.WriteLine();
                 Console.WriteLine("Vencedor: " + partida.JogadorAtual);
             }
         }
