@@ -2,33 +2,60 @@
 
 namespace xadrez
 {
+    /// <summary>
+    /// Define a peça Peão de um jogo de xadrez.
+    /// </summary>
     class Rei : Peca
     {
         private PartidaDeXadrez Partida;
 
+        /// <summary>
+        /// Constrói a peça Rei recebendo como parâmetro um Class Tabuleiro, uma Class Cor e uma Class PartidaDeXadrez.
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <param name="cor"></param>
+        /// <param name="partida"></param>
         public Rei(Tabuleiro tab, Cor cor, PartidaDeXadrez partida)
             : base(tab, cor)
         {
             Partida = partida;
         }
 
+        /// <summary>
+        /// Imprime a letra que indica uma peça Rei.
+        /// </summary>
+        /// <returns> Retorna o string "R"</returns>
         public override string ToString()
         {
             return "R";
         }
 
+        /// <summary>
+        /// Verifica se pode mover o Rei para a posição indicada.
+        /// </summary>
+        /// <param name="pos"> Class Posicao.</param>
+        /// <returns> Retorna um bool true ou false.</returns>
         private bool PodeMover(Posicao pos)
         {
             Peca p = Tab.Peca(pos);
             return p == null || p.Cor != Cor;
         }
 
+        /// <summary>
+        /// Verifica se tem uma torre disponível para fazer o Roque, recebe como parâmetro a Class Posicao da torre.
+        /// </summary>
+        /// <param name="pos"> Class Posicao.</param>
+        /// <returns> Retorna um bool True ou False.</returns>
         private bool TesteTorreParaRoque(Posicao pos)
         {
             Peca p = Tab.Peca(pos);
             return p != null && p is Torre && p.Cor == Cor && p.QteMovimentos == 0;
         }
 
+        /// <summary>
+        /// Retorna uma matriz de movimentos possíveis do Rei.
+        /// </summary>
+        /// <returns> Retorna um vetor com os movimentos possíveis.</returns>
         public override bool[,] MovimentosPossiveis()
         {
             bool[,] mat = new bool[Tab.Linhas, Tab.Colunas];

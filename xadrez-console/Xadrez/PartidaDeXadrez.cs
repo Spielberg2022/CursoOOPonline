@@ -3,17 +3,23 @@ using tabuleiro;
 
 namespace xadrez
 {
+    /// <summary>
+    /// Define a partida de xadrez.
+    /// </summary>
     class PartidaDeXadrez
     {
         public Tabuleiro Tab { get; private set; }
         public bool Terminada { get; private set; }
         public int Turno { get; private set; }
         public Cor JogadorAtual { get; private set; }
-        private HashSet<Peca> pecas;
-        private HashSet<Peca> capturadas;
         public bool Xeque { get; private set; }
         public Peca VulneravelEnPassant { get; private set; }
+        private HashSet<Peca> pecas;
+        private HashSet<Peca> capturadas;
 
+        /// <summary>
+        /// Constrói a partida de xadrez.
+        /// </summary>
         public PartidaDeXadrez()
         {
             Tab = new Tabuleiro(8, 8);
@@ -27,7 +33,13 @@ namespace xadrez
             ColocarPecas();
         }
 
-        public Peca ExecutarMovimento(Posicao origem, Posicao destino)
+        /// <summary>
+        /// Executa o movimento de uma peça recebendo como parâmetro a Class Posicao de origem e a Class Posicao de destino.
+        /// </summary>
+        /// <param name="origem"> Class Posicao de origem.</param>
+        /// <param name="destino"> Class Posicao de destino.</param>
+        /// <returns> Retorna uma Class Peca que foi capturada.</returns>
+        private Peca ExecutarMovimento(Posicao origem, Posicao destino)
         {
             Peca p = Tab.RetirarPeca(origem);
             p.IncrementarQtdMovimentos();
@@ -74,7 +86,13 @@ namespace xadrez
             return pecaCapturada;
         }
 
-        public void DesfazMovimento(Posicao origem, Posicao destino, Peca pecaCapturada)
+        /// <summary>
+        /// Desfaz o movimento de uma peça recebendo como parâmetros uma Class Posicao de origem, uma Class Posição de destino e uma peça capturada.
+        /// </summary>
+        /// <param name="origem"> Class Posicao de origem.</param>
+        /// <param name="destino"> Class Posicao de destino.</param>
+        /// <param name="pecaCapturada"> Class Peca capturada.</param>
+        private void DesfazMovimento(Posicao origem, Posicao destino, Peca pecaCapturada)
         {
             Peca p = Tab.RetirarPeca(destino);
             p.DecrementarQtdMovimentos();
@@ -121,6 +139,11 @@ namespace xadrez
             }
         }
 
+        /// <summary>
+        /// Realiza uma Jogada recebendo como parâmetros uma Class Posicao de origem e uma Class Posicao de destino.
+        /// </summary>
+        /// <param name="origem"> Class Posicao de origem.</param>
+        /// <param name="destino"> Class Posicao de destino.</param>
         public void RealizaJogada(Posicao origem, Posicao destino)
         {
             Peca pecaCapturada = ExecutarMovimento(origem, destino);
@@ -166,6 +189,10 @@ namespace xadrez
                 VulneravelEnPassant = null;
         }
 
+        /// <summary>
+        /// Valida a posição de origem imprimindo uma mensagem de erro, recebe como parâmetro a Class Posicao.
+        /// </summary>
+        /// <param name="pos"> Class Posicao.</param>
         public void ValidarPosicaoDeOrigem(Posicao pos)
         {
             if (Tab.Peca(pos) == null)
@@ -176,12 +203,20 @@ namespace xadrez
                 throw new TabuleiroException("Não há movimentos possíveis para a peça de origem escolhida!");
         }
 
+        /// <summary>
+        /// Valida a posição de destino imprimindo uma mensagem de erro, recebe como parâmetro a Class Posicao de origem e a Class Posicao de destino.
+        /// </summary>
+        /// <param name="origem"> Class Posicao de origem.</param>
+        /// <param name="destino"> Class Posicao de destino.</param>
         public void ValidarPosicaoDeDestino(Posicao origem, Posicao destino)
         {
             if (!Tab.Peca(origem).MovimentoPossivel(destino))
                 throw new TabuleiroException("Posição de destino inválida!");
         }
 
+        /// <summary>
+        /// Altera a vez do Jogador.
+        /// </summary>
         private void MudaJogador()
         {
             if (JogadorAtual == Cor.Branca)
@@ -190,6 +225,11 @@ namespace xadrez
                 JogadorAtual = Cor.Branca;
         }
 
+        /// <summary>
+        /// Cria um conjunto de peças capturadas, recebe como parâmetro a cor.
+        /// </summary>
+        /// <param name="cor"> Class Cor.</param>
+        /// <returns> Retorna o conjunto Class Peca</returns>
         public HashSet<Peca> PecasCapturadas(Cor cor)
         {
             HashSet<Peca> aux = new HashSet<Peca>();
@@ -199,6 +239,11 @@ namespace xadrez
             return aux;
         }
 
+        /// <summary>
+        /// Cria um conjunto de peças em jogo, recebe como parâmetro a cor.
+        /// </summary>
+        /// <param name="cor"> Class Cor.</param>
+        /// <returns> Retorna o conjunto Class Peca</returns>
         public HashSet<Peca> PecasEmJogo(Cor cor)
         {
             HashSet<Peca> aux = new HashSet<Peca>();
@@ -209,6 +254,11 @@ namespace xadrez
             return aux;
         }
 
+        /// <summary>
+        /// Altera a vez para a cor adversária, recebe como parâmetro a Class Cor atual.
+        /// </summary>
+        /// <param name="cor"> Class Cor.</param>
+        /// <returns> Class cor.</returns>
         private Cor Adversaria(Cor cor)
         {
             if (cor == Cor.Branca)
@@ -217,6 +267,11 @@ namespace xadrez
                 return Cor.Branca;
         }
 
+        /// <summary>
+        /// Verifica se tem uma peça Rei no jogo, o Rei é obrigatório ter, recebe como parâmetro a Class Cor.
+        /// </summary>
+        /// <param name="cor"> Class cor.</param>
+        /// <returns> Retorna um bool true ou false.</returns>
         private Peca Rei(Cor cor)
         {
             foreach (Peca x in PecasEmJogo(cor))
@@ -225,7 +280,12 @@ namespace xadrez
             return null;
         }
 
-        public bool EstaEmXeque(Cor cor)
+        /// <summary>
+        /// Verifica se a peça da partida está em Xeque, recebe como parâmetro a Class Cor.
+        /// </summary>
+        /// <param name="cor"> Class Cor.</param>
+        /// <returns> Retorna um bool true ou false.</returns>
+        private bool EstaEmXeque(Cor cor)
         {
             Peca R = Rei(cor);
             if (R == null)
@@ -239,7 +299,12 @@ namespace xadrez
             return false;
         }
 
-        public bool TesteXequeMate(Cor cor)
+        /// <summary>
+        /// Verifica se a peça da partida está em Xeque-Mate, recebe como parâmetro a Class Cor.
+        /// </summary>
+        /// <param name="cor"> Class Cor.</param>
+        /// <returns> Retorna um bool true ou false.</returns>
+        private bool TesteXequeMate(Cor cor)
         {
             if (!EstaEmXeque(cor))
                 return false;
@@ -264,12 +329,21 @@ namespace xadrez
             return true;
         }
 
-        public void ColocarNovaPeca(char coluna, int linha, Peca peca)
+        /// <summary>
+        /// Posiciona uma nova peça na partida de xadrez, recebe como parâmetros uma char coluna, um int linha e uma Class Peca.
+        /// </summary>
+        /// <param name="coluna"> Char coluna.</param>
+        /// <param name="linha"> Int linha.</param>
+        /// <param name="peca"> Class Peca.</param>
+        private void ColocarNovaPeca(char coluna, int linha, Peca peca)
         {
             Tab.ColocarPeca(peca, new PosicaoXadrez(coluna, linha).ToPosicao());
             pecas.Add(peca);
         }
 
+        /// <summary>
+        /// Posiciona as peças na partida de xadrez.
+        /// </summary>
         private void ColocarPecas()
         {
             ColocarNovaPeca('a', 1, new Torre(Tab, Cor.Branca));

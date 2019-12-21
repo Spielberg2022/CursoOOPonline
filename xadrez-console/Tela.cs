@@ -7,6 +7,10 @@ namespace xadrez_console
 {
     class Tela
     {
+        /// <summary>
+        /// Imprime a partida na tela, é necessário a Class PartidaDeXadrez para ser passada como parâmetro.
+        /// </summary>
+        /// <param name="partida"> Class PartidaDeXadrez que controla os dados da partida.</param>
         public static void ImprimirPartida(PartidaDeXadrez partida)
         {
             ImprimirTabuleiro(partida.Tab);
@@ -35,7 +39,11 @@ namespace xadrez_console
             }
         }
 
-        public static void ImprimirPecasCapturadas(PartidaDeXadrez partida)
+        /// <summary>
+        /// Imprime as peças capturadas na tela, é necessário a Class PartidaDeXadrez para ser passada como parâmetro.
+        /// </summary>
+        /// <param name="partida"> Class PartidaDeXadrez que controla os dados da partida</param>
+        private static void ImprimirPecasCapturadas(PartidaDeXadrez partida)
         {
             Console.WriteLine("Peças capturadas: ");
             Console.Write("Brancas: ");
@@ -49,7 +57,11 @@ namespace xadrez_console
             Console.WriteLine();
         }
 
-        public static void ImprimirConjunto(HashSet<Peca> conjunto)
+        /// <summary>
+        /// Imprime o conjunto de peças na tela, é necessário o conjunto da Class Peca para ser passado como parâmetro.
+        /// </summary>
+        /// <param name="conjunto"> Conjunto da Class Peca que controla as peças a serem impressas.</param>
+        private static void ImprimirConjunto(HashSet<Peca> conjunto)
         {
             Console.Write("[");
             foreach (Peca x in conjunto)
@@ -57,6 +69,10 @@ namespace xadrez_console
             Console.Write("]");
         }
 
+        /// <summary>
+        /// Imprime o Tabuleiro na tela, é necessário a Class Tabuleiro para ser passada como parâmetro.
+        /// </summary>
+        /// <param name="tab"> Class Tabuleiro que deseja imprimir.</param>
         public static void ImprimirTabuleiro(Tabuleiro tab)
         {
             for (int i = 0; i < tab.Linhas; i++)
@@ -69,6 +85,11 @@ namespace xadrez_console
             Console.WriteLine("  a b c d e f g h");
         }
 
+        /// <summary>
+        /// Imprime o Tabuleiro na tela, é necessário a Class Tabuleiro e uma matriz de posições possívei para o tabuleiro indicar os movimentos possíveis da jogada.
+        /// </summary>
+        /// <param name="tab"> Class Tabuleiro que deseja imprimir.</param>
+        /// <param name="posicoesPossiveis"> Matriz de movimentos possíveis da partida</param>
         public static void ImprimirTabuleiro(Tabuleiro tab, bool[,] posicoesPossiveis)
         {
             ConsoleColor fundoOriginal = Console.BackgroundColor;
@@ -92,6 +113,10 @@ namespace xadrez_console
             Console.BackgroundColor = fundoOriginal;
         }
 
+        /// <summary>
+        /// Lê a posição informada.
+        /// </summary>
+        /// <returns> Retorna a Class PosicaoXadrez.</returns>
         public static PosicaoXadrez LerPosicaoXadrez()
         {
             string s = Console.ReadLine();
@@ -100,27 +125,26 @@ namespace xadrez_console
             return new PosicaoXadrez(coluna, linha);
         }
 
-        public static void ImprimirPeca(Peca peca)
+        /// <summary>
+        /// Imprime as peças na tela, é necessário a Class Peca para ser passada como parâmetro.
+        /// </summary>
+        /// <param name="peca"> Class Peca que deseja imprimir.</param>
+        private static void ImprimirPeca(Peca peca)
         {
             if (peca == null)
                 Console.Write("- ");
             else
             {
-                if (peca.Cor == null)
-                    Console.Write("- ");
+                if (peca.Cor == Cor.Branca)
+                    Console.Write(peca);
                 else
                 {
-                    if (peca.Cor == Cor.Branca)
-                        Console.Write(peca);
-                    else
-                    {
-                        ConsoleColor aux = Console.ForegroundColor;
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write(peca);
-                        Console.ForegroundColor = aux;
-                    }
-                    Console.Write(" ");
+                    ConsoleColor aux = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(peca);
+                    Console.ForegroundColor = aux;
                 }
+                Console.Write(" ");
             }
         }
     }

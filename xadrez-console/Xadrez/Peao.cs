@@ -2,32 +2,59 @@
 
 namespace xadrez
 {
+    /// <summary>
+    /// Define a peça Peão de um jogo de xadrez.
+    /// </summary>
     class Peao : Peca
     {
         private PartidaDeXadrez Partida;
 
+        /// <summary>
+        /// Constrói a peça Peão recebendo como parâmetro um Class Tabuleiro, uma Class Cor e uma Class PartidaDeXadrez.
+        /// </summary>
+        /// <param name="tab"> Class Tabuleiro.</param>
+        /// <param name="cor"> Class Cor.</param>
+        /// <param name="partida"> Class PartidaDeXadrez.</param>
         public Peao(Tabuleiro tab, Cor cor, PartidaDeXadrez partida) 
             : base(tab, cor)
         {
             Partida = partida;
         }
 
+        /// <summary>
+        /// Imprime a letra que indica uma peça Peão.
+        /// </summary>
+        /// <returns> Retorna o string "P".</returns>
         public override string ToString()
         {
             return "P";
         }
 
+        /// <summary>
+        /// Verifica se existe peça inimiga na Class Posicao recebida como parâmetro.
+        /// </summary>
+        /// <param name="pos"> Class Posicao</param>
+        /// <returns> Retorna um bool True ou False.</returns>
         private bool ExisteInimigo(Posicao pos)
         {
             Peca p = Tab.Peca(pos);
             return p != null && p.Cor != Cor;
         }
 
+        /// <summary>
+        /// Verifica se a Class Posicao indicada está livre.
+        /// </summary>
+        /// <param name="pos"> Class Posicao.</param>
+        /// <returns> Retorna um bool True ou False.</returns>
         private bool Livre(Posicao pos)
         {
             return Tab.Peca(pos) == null;
         }
 
+        /// <summary>
+        /// Retorna uma matriz de movimentos possíveis do Peão.
+        /// </summary>
+        /// <returns> Retorna um vetor com os movimentos possíveis.</returns>
         public override bool[,] MovimentosPossiveis()
         {
             bool[,] mat = new bool[Tab.Linhas, Tab.Colunas];
